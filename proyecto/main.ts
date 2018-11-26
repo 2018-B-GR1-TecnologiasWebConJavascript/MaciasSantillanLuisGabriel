@@ -4,13 +4,6 @@ const rxjs = require('rxjs');
 const mergeMap = require('rxjs/operators').mergeMap;
 const map = require('rxjs/operators').map;
 
-/*
-map(  // MODIFICA ALTERA ARREGLO -> NUEVO ARREGLO
-    ()=>{
-        return {}
-    }
-)
-*/
 const preguntaMenu = {
     type: 'list',
     name: 'opcionMenu',
@@ -77,51 +70,7 @@ function main() {
             }
         );
 
-    // ------- 1) Si existe el archivo, leer, sino crear
-
-    // ------- 2) Pregunto que quiere hacer -> Crear Borrar Actualizar Buscar
-
-    // ------- 3) Preguntar los datos -> Datos nuevo Registro
-
-    // ------- 4) Accion!
-
-    // ------- 5) Guardar la Base de Datos
-
-
-    /*
-    try {
-        await inicializarBase();
-        const respuesta = await inquirer.prompt(preguntaMenu);
-        switch (respuesta.opcionMenu) {
-            case 'Crear':
-
-                const respuestaUsuario = await inquirer.prompt(preguntaUsuario);
-                await anadirUsuario(respuestaUsuario);
-                main();
-                break;
-
-            case 'Actualizar':
-
-                const respuestaUsuarioBusquedaPorNombre = await inquirer.prompt(preguntaUsuarioBusquedaPorNombre);
-
-                const existeUsuario = await buscarUsuarioPorNombre(respuestaUsuarioBusquedaPorNombre.nombre);
-
-                if (existeUsuario) {
-                    const respuestaNuevoNombre = await inquirer.prompt(preguntaUsuarioNuevoNombre);
-                    await editarUsuario(respuestaUsuarioBusquedaPorNombre.nombre, respuestaNuevoNombre.nombre);
-                } else {
-                    console.log('El usuario no existe');
-
-                    main();
-                    break;
-                }
-
-
-        }
-    } catch (e) {
-        console.log('Hubo un error');
-    }
-    */
+  
 }
 
 function inicializarBase() {
@@ -146,30 +95,7 @@ function inicializarBase() {
             ),
         );
 
-    /*
-    return new Promise(
-        (resolve, reject) => {
-
-            // CALLBACK HELL !!!
-
-            fs.readFile('bdd.json', 'utf-8',
-                (err, contenido) => {
-                    if (err) {
-                        fs.writeFile('bdd.json',
-                            '{"usuarios":[],"mascotas":[]}',
-                            (err) => {
-                                if (err) {
-                                    reject({mensaje: 'Error'});
-                                }
-                                resolve({mensaje: 'ok'});
-                            });
-                    } else {
-                        resolve({mensaje: 'ok'});
-                    }
-                });
-        }
-    );
-    */
+  
 }
 
 function leerBDD() {
@@ -197,7 +123,7 @@ function leerBDD() {
 }
 
 function crearBDD() {
-    const contenido = '{"usuarios":[],"mascotas":[]}';
+    const contenido = '{"usuarios":[],"datos":[]}';
     return new Promise(
         (resolve, reject) => {
             fs.writeFile(
@@ -413,7 +339,7 @@ interface RespuestaLeerBDD {
 
 export interface BaseDeDatos {
     usuarios: Usuario[];
-    mascotas: Mascota[];
+    datos: Dato[];
 }
 
 interface Usuario {
@@ -421,7 +347,7 @@ interface Usuario {
     nombre: string;
 }
 
-interface Mascota {
+interface Dato {
     id: number;
     nombre: string;
     idUsuario: number;
