@@ -1,9 +1,0 @@
-{
-  " nombre " : " Kevin " ,
-  " edad " : 23,
-  " casado " : null ,
-  " tieneHijos " : false ,
-  " mascotas " : {
-    " nombre " : " shaggy "
-  }
-}
