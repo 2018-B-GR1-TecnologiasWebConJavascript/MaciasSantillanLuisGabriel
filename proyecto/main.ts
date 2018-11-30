@@ -6,13 +6,7 @@ const rxjs = require('rxjs');
 const mergeMap = require('rxjs/operators').mergeMap;
 const map = require('rxjs/operators').map;
 
-/*
-map(  // MODIFICA ALTERA ARREGLO -> NUEVO ARREGLO
-    ()=>{
-        return {}
-    }
-)
-*/
+
 const preguntaMenu = {
     type: 'list',
     name: 'opcionMenu',
