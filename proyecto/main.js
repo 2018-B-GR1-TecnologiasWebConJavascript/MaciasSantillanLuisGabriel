@@ -63,7 +63,7 @@ function main() {
     // ------- 2) Pregunto que quiere hacer -> Crear Borrar Actualizar Buscar
     // ------- 3) Preguntar los datos -> Datos nuevo Registro
     // ------- 4) Accion!
-    // 5) Guardar la Base de Datos
+    // ------- 5) Guardar la Base de Datos
     /*
     try {
         await inicializarBase();
