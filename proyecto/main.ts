@@ -35,7 +35,13 @@ const preguntaUsuario = [
         message: 'Cual es tu nombre'
     },
 ];
-
+const preguntaUsuarioBuscar = [
+    {
+        type: 'input',
+        name: 'id',
+        message: 'Cual es el id'
+    },
+];
 const preguntaUsuarioBusquedaPorNombre = [
     {
         type: 'input',
@@ -61,7 +67,6 @@ function main() {
         .pipe(
             preguntarOpcionesMenu(),
             preguntarDatos(),
-            ejecutarAccion(),
             actualizarBDD()
         )
         .subscribe(
@@ -88,40 +93,6 @@ function main() {
     // ------- 5) Guardar la Base de Datos
 
 
-    /*
-    try {
-        await inicializarBase();
-        const respuesta = await inquirer.prompt(preguntaMenu);
-        switch (respuesta.opcionMenu) {
-            case 'Crear':
-
-                const respuestaUsuario = await inquirer.prompt(preguntaUsuario);
-                await anadirUsuario(respuestaUsuario);
-                main();
-                break;
-
-            case 'Actualizar':
-
-                const respuestaUsuarioBusquedaPorNombre = await inquirer.prompt(preguntaUsuarioBusquedaPorNombre);
-
-                const existeUsuario = await buscarUsuarioPorNombre(respuestaUsuarioBusquedaPorNombre.nombre);
-
-                if (existeUsuario) {
-                    const respuestaNuevoNombre = await inquirer.prompt(preguntaUsuarioNuevoNombre);
-                    await editarUsuario(respuestaUsuarioBusquedaPorNombre.nombre, respuestaNuevoNombre.nombre);
-                } else {
-                    console.log('El usuario no existe');
-
-                    main();
-                    break;
-                }
-
-
-        }
-    } catch (e) {
-        console.log('Hubo un error');
-    }
-    */
 }
 
 function inicializarBase() {
@@ -146,30 +117,6 @@ function inicializarBase() {
             ),
         );
 
-    /*
-    return new Promise(
-        (resolve, reject) => {
-
-            // CALLBACK HELL !!!
-
-            fs.readFile('bdd.json', 'utf-8',
-                (err, contenido) => {
-                    if (err) {
-                        fs.writeFile('bdd.json',
-                            '{"usuarios":[],"mascotas":[]}',
-                            (err) => {
-                                if (err) {
-                                    reject({mensaje: 'Error'});
-                                }
-                                resolve({mensaje: 'ok'});
-                            });
-                    } else {
-                        resolve({mensaje: 'ok'});
-                    }
-                });
-        }
-    );
-    */
 }
 
 function leerBDD() {
@@ -197,7 +144,7 @@ function leerBDD() {
 }
 
 function crearBDD() {
-    const contenido = '{"usuarios":[],"mascotas":[]}';
+    const contenido = '{"usuarios":[],"sectores":[]}';
     return new Promise(
         (resolve, reject) => {
             fs.writeFile(
@@ -272,11 +219,75 @@ function preguntarDatos() {
                         .pipe(
                             map(
                                 (usuario: Usuario) => {
-                                    respuesta.usuario = usuario;
+                                console.log(usuario.id);
+                                    respuesta.bdd.usuarios.push(usuario);
                                     return respuesta;
                                 }
                             )
                         );
+
+                case 'Buscar':
+                return rxjs
+                        .from(inquirer.prompt(preguntaUsuarioBuscar))
+                        .pipe(
+                            map(
+                                (usuario: Usuario) => {
+                                    const usuarioaBuscar=usuario.id;
+                                    
+                                    const respuestaFind =  respuesta.bdd.usuarios.find((usuario) => {
+                        
+                                    
+                                        return usuario.id === usuarioaBuscar;
+                                    });
+                               console.log("el nombre del usuario encontrado es: "+respuestaFind.nombre);
+                                    return respuesta;
+                                }
+                            )
+                        );
+                case 'Borrar':
+                    return rxjs
+                        .from(inquirer.prompt(preguntaUsuarioBuscar))
+                        .pipe(
+                            map(
+                                (usuario: Usuario) => {
+                                    const usuarioaBorrar=usuario.id;
+                                    
+                                    const idParaEliminar =respuesta.bdd.usuarios.findIndex(
+                                        (usuario) => {
+                                            return usuario.id == usuarioaBorrar;
+                                        }
+                                    );
+                                    console.log(idParaEliminar);
+                                
+                                    respuesta.bdd.usuarios.splice(idParaEliminar, 1);
+                                    return respuesta;
+                                }
+                            )
+                        );
+
+                case 'Actualizar':
+                    return rxjs
+                        .from(inquirer.prompt(preguntaUsuario))
+                        .pipe(
+                            map(
+                                (usuario: Usuario) => {
+                                    const idUsuarioaActualizar=usuario.id;
+                                    const nombreUsuarioaActualizar=usuario.nombre;
+                                    
+                                    const idParaActializar = respuesta.bdd.usuarios.findIndex(
+                                        (usuario) => {
+                                            return usuario.id == idUsuarioaActualizar;
+                                        }
+                                    );
+
+
+                                    respuesta.bdd.usuarios[idParaActializar].nombre=nombreUsuarioaActualizar;
+                                    return respuesta;
+                                }
+                                )
+                            );
+
+                
 
             }
         }
@@ -307,7 +318,7 @@ function anadirUsuario(usuario) {
             fs.readFile('bdd.json', 'utf-8',
                 (err, contenido) => {
                     if (err) {
-                        reject({mensaje: 'Error leyendo'});
+                        reject({ mensaje: 'Error leyendo' });
                     } else {
                         const bdd = JSON.parse(contenido);
 
@@ -322,7 +333,7 @@ function anadirUsuario(usuario) {
                                 if (err) {
                                     reject(err);
                                 } else {
-                                    resolve({mensaje: 'Usuario Creado'});
+                                    resolve({ mensaje: 'Usuario Creado' });
                                 }
                             }
                         );
@@ -338,7 +349,7 @@ function editarUsuario(nombre, nuevoNombre) {
             fs.readFile('bdd.json', 'utf-8',
                 (err, contenido) => {
                     if (err) {
-                        reject({mensaje: 'Error leyendo'});
+                        reject({ mensaje: 'Error leyendo' });
                     } else {
                         const bdd = JSON.parse(contenido);
 
@@ -360,7 +371,7 @@ function editarUsuario(nombre, nuevoNombre) {
                                 if (err) {
                                     reject(err);
                                 } else {
-                                    resolve({mensaje: 'Usuario Editado'});
+                                    resolve({ mensaje: 'Usuario Editado' });
                                 }
                             }
                         );
@@ -376,7 +387,7 @@ function buscarUsuarioPorNombre(nombre) {
             fs.readFile('bdd.json', 'utf-8',
                 (err, contenido) => {
                     if (err) {
-                        reject({mensaje: 'Error leyendo'});
+                        reject({ mensaje: 'Error leyendo' });
                     } else {
                         const bdd = JSON.parse(contenido);
 
@@ -406,7 +417,7 @@ interface RespuestaLeerBDD {
 
 export interface BaseDeDatos {
     usuarios: Usuario[];
-    mascotas: Mascota[];
+    sectores: Sector[];
 }
 
 interface Usuario {
@@ -414,7 +425,7 @@ interface Usuario {
     nombre: string;
 }
 
-interface Mascota {
+interface Sector {
     id: number;
     nombre: string;
     idUsuario: number;
