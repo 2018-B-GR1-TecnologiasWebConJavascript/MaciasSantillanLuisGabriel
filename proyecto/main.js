@@ -21,6 +21,15 @@ const preguntaMenu = {
         'Actualizar',
     ]
 };
+const preguntaMenu2 = {
+    type: 'list',
+    name: 'opcionMenu2',
+    message: 'Que desea crear',
+    choices: [
+        'Usuario',
+        'Localidad Geografica',
+    ]
+};
 const preguntaUsuario = [
     {
         type: 'input',
@@ -150,7 +159,24 @@ function preguntarOpcionesMenu() {
             .pipe(map((opcionMenu) => {
             respuesta.opcionMenu = opcionMenu;
             return respuesta;
+        }), preguntarOpcionesMenu2());
+    });
+}
+function preguntarOpcionesMenu2() {
+    return mergeMap((respuesta) => {
+        return rxjs
+            .from(inquirer.prompt(preguntaMenu2))
+            .pipe(map((OpcionMenu2) => {
+            respuesta.opcionMenu2 = OpcionMenu2;
+            return respuesta;
         }));
+    });
+}
+function queAgregar() {
+    return mergeMap((respuesta) => {
+        switch (respuesta.opcionMenu2.opcionMenu2) {
+            case 'Usuario':
+        }
     });
 }
 function preguntarDatos() {

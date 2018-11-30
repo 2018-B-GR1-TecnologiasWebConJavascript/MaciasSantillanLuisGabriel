@@ -1,3 +1,5 @@
+
+declare var require: any;
 const inquirer = require('inquirer');
 const fs = require('fs');
 const rxjs = require('rxjs');
@@ -20,6 +22,15 @@ const preguntaMenu = {
         'Borrar',
         'Buscar',
         'Actualizar',
+    ]
+};
+const preguntaMenu2 = {
+    type: 'list',
+    name: 'opcionMenu2',
+    message: 'Que desea crear',
+    choices: [
+        'Usuario',
+        'Localidad Geografica',
     ]
 };
 
@@ -203,12 +214,41 @@ function preguntarOpcionesMenu() {
                             respuesta.opcionMenu = opcionMenu;
                             return respuesta;
                         }
+                    ),preguntarOpcionesMenu2()
+                );
+        }
+    );
+}
+
+function preguntarOpcionesMenu2() {
+    return mergeMap(
+        (respuesta: RespuestaLeerBDD) => {
+            return rxjs
+                .from(inquirer.prompt(preguntaMenu2))
+                .pipe(
+                    map(
+                        (OpcionMenu2: OpcionMenu2) => {
+                            respuesta.opcionMenu2 = OpcionMenu2;
+                            return respuesta;
+                        }
                     )
                 );
         }
     );
 }
 
+function queAgregar(){
+    return mergeMap(
+        (respuesta:RespuestaLeerBDD)=>{
+            switch (respuesta.opcionMenu2.opcionMenu2) {
+                case 'Usuario':
+                    
+            }
+
+        }
+    )
+
+}
 function preguntarDatos() {
     return mergeMap(
         (respuesta: RespuestaLeerBDD) => {
@@ -412,6 +452,7 @@ interface RespuestaLeerBDD {
     mensaje: string;
     bdd?: BaseDeDatos;
     opcionMenu?: OpcionMenu;
+    opcionMenu2?: OpcionMenu2;
     usuario?: Usuario;
 }
 
@@ -435,7 +476,9 @@ interface OpcionMenu {
     opcionMenu: 'Crear' | 'Borrar' | 'Actualizar' | 'Buscar';
 }
 
-
+interface OpcionMenu2 {
+    opcionMenu2: 'Usuario' | 'Localidad Geografica' ;
+}
 
 
 
