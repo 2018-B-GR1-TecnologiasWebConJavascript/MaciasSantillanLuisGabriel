@@ -92,99 +92,99 @@ function obtenerMovimientos() {
             console.log(movimientosPokemos)
         })
 }
-function filtrarPorTipos(){
-    const bddLeida$ = rxjs.from(leerBDDP());
+// function filtrarPorTipos(){
+//     const bddLeida$ = rxjs.from(leerBDDP());
 
-    return bddLeida$
-        .pipe(
-            mergeMap(
-                (respuestaBDD: RespuestaLeerBDDpokemon) => {
-                    if (respuestaBDD.bdd) {
-                        return rxjs
-                            .from(inquirer.prompt(preguntaUsuarioPokemon))
-                            .mergeMap(rxjs.from(leerBDD),
+//     return bddLeida$
+//         .pipe(
+//             mergeMap(
+//                 (respuestaBDD: RespuestaLeerBDDpokemon) => {
+//                     if (respuestaBDD.bdd) {
+//                         return rxjs
+//                             .from(inquirer.prompt(preguntaUsuarioPokemon))
+//                             .mergeMap(rxjs.from(leerBDD),
 
-                            filter((pokemon: Pokemon)  => 
-                            respuestaBDD.bdd.pokemon.types === "tipo")
+//                             filter((pokemon: Pokemon)  => 
+//                             respuestaBDD.bdd.pokemon.types === "tipo")
                                 
-                            );
+//                             );
 
 
-                    } else {
-                        // crear la base
+//                     } else {
+//                         // crear la base
 
-                        return rxjs
-                            .from(crearBDD());
-                    }
+//                         return rxjs
+//                             .from(crearBDD());
+//                     }
 
-                }
-            ),
-        );
+//                 }
+//             ),
+//         );
 
 
-}
-function filtrarPorHabilidad(){
-    const bddLeida$ = rxjs.from(leerBDDP());
+// }
+// function filtrarPorHabilidad(){
+//     const bddLeida$ = rxjs.from(leerBDDP());
 
-    return bddLeida$
-        .pipe(
-            mergeMap(
-                (respuestaBDD: RespuestaLeerBDDpokemon) => {
-                    if (respuestaBDD.bdd) {
-                        return rxjs
-                            .from(inquirer.prompt(preguntaUsuarioPokemon))
-                            .mergeMap(rxjs.from(leerBDD),
+//     return bddLeida$
+//         .pipe(
+//             mergeMap(
+//                 (respuestaBDD: RespuestaLeerBDDpokemon) => {
+//                     if (respuestaBDD.bdd) {
+//                         return rxjs
+//                             .from(inquirer.prompt(preguntaUsuarioPokemon))
+//                             .mergeMap(rxjs.from(leerBDD),
 
-                            filter((pokemon: Pokemon)  => 
-                            respuestaBDD.bdd.pokemon.abilities === 'grass')
+//                             filter((pokemon: Pokemon)  => 
+//                             respuestaBDD.bdd.pokemon.abilities === 'grass')
                                 
-                            );
+//                             );
 
 
-                    } else {
-                        // crear la base
+//                     } else {
+//                         // crear la base
 
-                        return rxjs
-                            .from(crearBDD());
-                    }
+//                         return rxjs
+//                             .from(crearBDD());
+//                     }
 
-                }
-            ),
-        );
+//                 }
+//             ),
+//         );
 
 
-}
-function filtrarPorMovimiento(){
-    const bddLeida$ = rxjs.from(leerBDDP());
+//}
+// function filtrarPorMovimiento(){
+//     const bddLeida$ = rxjs.from(leerBDDP());
 
-    return bddLeida$
-        .pipe(
-            mergeMap(
-                (respuestaBDD: RespuestaLeerBDDpokemon) => {
-                    if (respuestaBDD.bdd) {
-                        return rxjs
-                            .from(inquirer.prompt(preguntaUsuarioPokemon))
-                            .mergeMap(rxjs.from(leerBDD),
+//     return bddLeida$
+//         .pipe(
+//             mergeMap(
+//                 (respuestaBDD: RespuestaLeerBDDpokemon) => {
+//                     if (respuestaBDD.bdd) {
+//                         return rxjs
+//                             .from(inquirer.prompt(preguntaUsuarioPokemon))
+//                             .mergeMap(rxjs.from(leerBDD),
 
-                            filter((pokemon: Pokemon)  => 
-                            respuestaBDD.bdd.pokemon.moves === 'cut')
+//                             filter((pokemon: Pokemon)  => 
+//                             respuestaBDD.bdd.pokemon.moves === 'cut')
                                 
-                            );
+//                             );
 
 
-                    } else {
-                        // crear la base
+//                     } else {
+//                         // crear la base
 
-                        return rxjs
-                            .from(crearBDD());
-                    }
+//                         return rxjs
+//                             .from(crearBDD());
+//                     }
 
-                }
-            ),
-        );
+//                 }
+//             ),
+//         );
 
 
-}
+// }
 function compararABC() {
     const iniciarBDD$ = rxjs.from(inicialiarBDD())
     iniciarBDD$

@@ -1,0 +1,22 @@
+<h3> Gestion Usuarios</h3>
+<p>Gestione sus usuarios</p>
+
+<table>
+
+  <tr>
+    <th>Identificador</th>
+    <th>Nombre</th>
+    <th>Accion</th>
+  </tr>
+  <tr *ngFor="let usuario of usuarios">
+    <td>{{usuario.id}}</td>
+    <td>{{usuario.nombre}}</td>
+
+<!--event bindin, (nombre del evento) -->
+    <th><button (click)="imprimir(usuario)">Eliminar</button></th>
+  </tr>
+</table>
+
+<!--NGFOR con directivas iteramos para recorrer todos los atributos del arreglo-->
+
+<!--interpolacion-->
