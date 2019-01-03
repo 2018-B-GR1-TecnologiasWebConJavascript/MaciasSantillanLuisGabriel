@@ -13,10 +13,17 @@
     <td>{{usuario.nombre}}</td>
 
 <!--event bindin, (nombre del evento) -->
-    <th><button (click)="imprimir(usuario)">Eliminar</button></th>
+    <th><button (click)="eliminar(usuario)">Eliminar</button>
+    <!--al utilizar [] se necesita mandar la rut
+      a en arreglos de string /menu/ver-usuario/usuario.id-->
+    <a [routerLink]="
+    ['/menu','ver-usuario',usuario.id]
+    "><button>Ver</button> </a>
+    </th>
   </tr>
 </table>
 
 <!--NGFOR con directivas iteramos para recorrer todos los atributos del arreglo-->
 
 <!--interpolacion-->
+

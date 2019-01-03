@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ConsoleReporter } from 'jasmine';
+import { UsuarioServiceService } from 'src/app/servicios/usuario-service.service';
 
 @Component({
   selector: 'app-ruta-gestion-usuarios',
@@ -7,36 +7,32 @@ import { ConsoleReporter } from 'jasmine';
   styleUrls: ['./ruta-gestion-usuarios.component.scss']
 })
 export class RutaGestionUsuariosComponent implements OnInit {
+  usuarios=[];
 
+//inyeccion de depencdencias 
+// no son como cualquier clase normal, el constructor instancia el componente
 
-  usuarios: Usuario[] = [
-    {
-      id: 1,
-      nombre: 'gabriel'
-    }, {
-      id: 2,
-      nombre: 'Luis'
-    }
-  ]
-
-  constructor() { }
+  constructor(
+    private readonly _usuarioService:UsuarioServiceService
+  ) {
+    
+   }
 
 
   ngOnInit() {
+    //cuando esta listo el web component para mostrarse
+    this.usuarios=this._usuarioService.usuarios;
   }
 
-  hola(){
-    return 'hola';
-  }
+  // hola(){ DOLO DERVIA PARA PROBAR 
+  //   return 'hola';
+  // }
 
-  imprimir(usuario:Usuario){
-    console.log(usuario);
-    const indiceUsuarioAEliminar= this.usuarios.findIndex(
-      (usuarioABusacar)=>{
-        return usuarioABusacar.id===usuario.id;
-      }
-    );
-    this.usuarios.splice(indiceUsuarioAEliminar,1)
+  eliminar(usuario:Usuario){
+    //console.log(usuario);
+    this._usuarioService.eliminar(usuario.id);
+    
+   
   }
 
 }

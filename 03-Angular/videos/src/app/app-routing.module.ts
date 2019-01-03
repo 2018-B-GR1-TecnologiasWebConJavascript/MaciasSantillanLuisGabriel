@@ -7,6 +7,7 @@ import { RutaPerfilComponent } from './rutas/ruta-perfil/ruta-perfil.component';
 import { Ruta404Component } from './rutas/ruta404/ruta404.component';
 import { RutaGestionUsuariosComponent } from './rutas/ruta-gestion-usuarios/ruta-gestion-usuarios.component';
 import { RutaGestionProductoComponent } from './rutas/ruta-gestion-producto/ruta-gestion-producto.component';
+import { RutaVerDetalleUsuarioComponent } from './rutas/ruta-ver-detalle-usuario/ruta-ver-detalle-usuario.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,10 @@ const routes: Routes = [
     {
       path: 'gestion-producto',
       component: RutaGestionProductoComponent
+    },
+    {
+      path: 'ver-usuario/:idUsuario',
+      component: RutaVerDetalleUsuarioComponent
     }
   ]
 },
