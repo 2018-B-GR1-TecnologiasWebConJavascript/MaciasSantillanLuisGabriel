@@ -8,8 +8,18 @@
 
 
 module.exports = {
-  holaMundo:(peticion,respuesta)=>{
-      return respuesta.send('ok');
+  holaMundo: (peticion, respuesta) => {
+    return respuesta.send('ok');
+  },
+  buscarPorNombre: async (req, res) => {
+
+    const parametros=req.allParams;
+    //tener acceso a todos los modelos 
+    var nombreCac = await Raza.find({
+      nombre: { 'startsWith': parametros.nombre }
+    });
+    return res.ok(nombreCac);
+
   }
 
 };
